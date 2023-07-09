@@ -2,34 +2,31 @@ from rest_framework import serializers
 from dataclasses import field
 from .models import Board, Comment
 
+class BoardSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = 'user.nickname')
+    class Meta:
+        model = Board
+        fields = ['id', 'title', 'date', 'user', 'body']
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source = 'user.nickname')
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'user', 'created_at', 'comment']
-        read_only_fields = ['user']
-
-class BoardSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
-    class Meta:
-        model = Board
-        fields = ['id', 'user', 'title', 'body', 'comments']
-        read_only_fields = ['user']
+        fields = ['id', 'board', 'user', 'created_at', 'comment']
 
 
+
+
+##### v1
+# class CommentSerializer(serializers.ModelSerializer):
+#     user = serializers.ReadOnlyField(source = 'user.nickname')
+#     class Meta:
+#         model = Comment
+#         fields = ['id', 'post', 'user', 'created_at', 'comment']
 
 # class BoardSerializer(serializers.ModelSerializer):
+#     comments = CommentSerializer(many=True, read_only=True)
 #     class Meta:
 #         model = Board
-#         fields = ['id', 'user', 'title', 'body']
-#         read_only_fields = ['user']
+#         fields = ['id', 'user', 'title', 'body', 'comments']
 
-    
-# class CommentSerializer(serializers.ModelSerializer) :
-#     user = serializers.ReadOnlyField(source = 'user.nickname')
-#     board = serializers.ReadOnlyField(source='board.id')
-#     board = serializers.CharField(read_only=True)
-#     class Meta :
-#         model = Comment
-#         fields = ['id', 'board', 'user', 'created_at', 'comment']

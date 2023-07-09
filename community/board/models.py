@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from members.models import CustomUser
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Board(models.Model):
 
 class Comment(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
-    post = models.ForeignKey(Board, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, null=False, blank=False, on_delete=models.CASCADE, default="")
     created_at = models.DateField(auto_now_add=True, null=True)
     comment = models.TextField(default="")
